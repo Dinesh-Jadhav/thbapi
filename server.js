@@ -53,6 +53,7 @@ app.get("/all/", async function(req, res) {
 
 cloudscraper(options).then(function (htmlString) {
       console.log(htmlString);
+      console.log("aasdkfjh");
       res.send(htmlString);
    }).catch(function (err) {
      console.log(err)
