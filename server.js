@@ -3,7 +3,7 @@ var app = express();
 var request = require("request")
 var cors = require("cors");
 const cron = require("node-cron");
-
+var cloudscraper = require('cloudscraper');
 
 var final = [];
 
@@ -29,22 +29,34 @@ app.get("/all/", async function(req, res) {
   //console.log(counter);
   //res.send(doStuff());
 
-	request.get({
-		"headers": { 
-		    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-    'accept-language': 'en-US,en;q=0.9',
-    'cache-control': 'max-age=0',
-    'upgrade-insecure-requests': '10',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36' },
-		"url": "https://www.bloomberg.com/markets2/api/datastrip/USDTHB%3ACUR"
-		}, (error, response, body) => {
-	    if(error) {
-		return console.log(error);
-	    }
-	       // console.log(response);
-		console.log(body);
-		res.send(body);
-	});
+	// request.get({
+	// 	"headers": {
+	// 	    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  //   'accept-language': 'en-US,en;q=0.9',
+  //   'cache-control': 'max-age=0',
+  //   'upgrade-insecure-requests': '10',
+  //   'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36' },
+	// 	"url": "https://www.bloomberg.com/markets2/api/datastrip/USDTHB%3ACUR"
+	// 	}, (error, response, body) => {
+	//     if(error) {
+	// 	return console.log(error);
+	//     }
+	//        // console.log(response);
+	// 	console.log(body);
+	// 	res.send(body);
+	// });
+
+  var options = {
+  method: 'GET',
+  url:'https://www.bloomberg.com/markets2/api/datastrip/USDTHB%3ACUR',
+};
+
+cloudscraper(options).then(function (htmlString) {
+      console.log(htmlString);
+      res.send(htmlString);
+   }).catch(function (err) {
+     console.log(err)
+   })
 
 });
 
